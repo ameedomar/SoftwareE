@@ -1,0 +1,61 @@
+
+<project default="compile">
+
+
+    <property name="src.java" location="./src/software"/>
+    <property name="src.test" location="./src/test"/>
+    <property name="result.java" location="./target/calsses"/>
+    <property name="result.test" location="./target/java"/>
+  
+
+
+
+
+
+    <path id="NecessaryLibraries">
+        <pathelement location="./UsedLibraries/junit-4.13.jar"/>
+        <!--matcher-->
+        <pathelement location="./UsedLibraries/hamcrest-core-1.3.jar"/>
+        <!--<pathelement location="./UsedLibraries/jacocoant.jar"/>-->
+    </path>
+
+
+    <target name="compile">
+        <mkdir dir="${result.java}"/>
+        <javac srcdir="${src.java}" destdir="${result.java}" debug="true"  includeantruntime="false">
+        </javac>
+    </target>
+
+
+    <target name="compile-testcases" depends="compile">
+        <mkdir dir="${result.test}"/>
+        <javac srcdir="${src.test}"  destdir="${result.test}" debug="true" includeantruntime="false">
+            <classpath>
+
+                <path refid="NecessaryLibraries"/>
+                <pathelement location="${result.java}"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="test" depends="compile-testcases">
+        <!--fork : each test will run in its own JVM (to seperate test cases)-->
+        <junit printsummary="true" haltonfailure="true" fork="true">
+            <classpath>
+                <path refid="NecessaryLibraries"></path>
+                <pathelement location="${result.java}"/>
+                <pathelement location="${result.test}"/>
+            </classpath>
+            <formatter type="brief" usefile="false"/>
+            <batchtest >
+                <fileset dir="${result.test}" >
+                     <include name="**/*Test.class"/>
+                </fileset>
+            </batchtest>
+
+        </junit>
+    </target>
+
+
+
+</project>

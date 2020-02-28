@@ -4,10 +4,10 @@ import org.junit.Assert;
 import software.Calculator;;
 
 
-class Test {
+public class Test {
 
 
-	@org.junit.jupiter.api.Test
+	@org.junit.Test
 	public void testSum_BothNumbersArePositive_ShouldReturnPositiveNumber() {
 	// Arrange
 	int a = 10;
